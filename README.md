@@ -4,8 +4,6 @@ Crisp Agent 现在以**原生 SwiftUI iOS App**为主：Gemma 4 模型下载到
 iPhone 后由 [LiteRT-LM](https://github.com/google-ai-edge/LiteRT-LM)
 在本机运行，并直接加载、导入和管理 `SKILL.md`。
 
-> 正确的开放模型名称是 **Google Gemma 4**，不是 Gemini 4。Gemini 是另一条
-> 产品线。
 
 ## 当前能力
 
