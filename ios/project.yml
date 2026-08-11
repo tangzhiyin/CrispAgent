@@ -1,0 +1,66 @@
+name: CrispAgent
+
+options:
+  bundleIdPrefix: com.crisp
+  deploymentTarget:
+    iOS: "17.0"
+  xcodeVersion: "26.0"
+  createIntermediateGroups: true
+
+packages:
+  LiteRTLM:
+    url: https://github.com/google-ai-edge/LiteRT-LM
+    exactVersion: 0.15.0
+
+settings:
+  base:
+    SWIFT_VERSION: 5.9
+    IPHONEOS_DEPLOYMENT_TARGET: 17.0
+    TARGETED_DEVICE_FAMILY: "1"
+    CODE_SIGN_STYLE: Automatic
+
+targets:
+  CrispAgent:
+    type: application
+    platform: iOS
+    sources:
+      - path: CrispAgent
+        excludes:
+          - Resources
+      - path: CrispAgent/Resources
+        buildPhase: resources
+      - path: ../.agents/skills
+        name: skills
+        type: folder
+        buildPhase: resources
+    dependencies:
+      - package: LiteRTLM
+        product: LiteRTLM
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.crisp.CrispAgent
+        PRODUCT_NAME: Crisp Agent
+        MARKETING_VERSION: 1.0.0
+        CURRENT_PROJECT_VERSION: 1
+        INFOPLIST_FILE: CrispAgent/Resources/Info.plist
+        GENERATE_INFOPLIST_FILE: NO
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+        DEVELOPMENT_ASSET_PATHS: ""
+    scheme:
+      testTargets:
+        - CrispAgentTests
+      gatherCoverageData: true
+
+  CrispAgentTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: CrispAgentTests
+    dependencies:
+      - target: CrispAgent
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.crisp.CrispAgentTests
+        GENERATE_INFOPLIST_FILE: YES
+

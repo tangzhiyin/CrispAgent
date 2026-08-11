@@ -3,3 +3,8 @@ node_modules/
 coverage/
 *.log
 .DS_Store
+ios/CrispAgent.xcodeproj/
+ios/DerivedData/
+ios/.build/
+ios/**/xcuserdata/
+ios/**/*.xcuserstate

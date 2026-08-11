@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="zh-Hans">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#f4f0e8" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#11100f" media="(prefers-color-scheme: dark)">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Crisp Agent">
+    <meta name="format-detection" content="telephone=no">
+    <title>Crisp Agent</title>
+    <link rel="manifest" href="/manifest.webmanifest">
+    <link rel="icon" href="/icons/agent.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icons/agent.svg">
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="app-header">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true">C</div>
+          <div>
+            <h1>Crisp Agent</h1>
+            <button id="status-button" class="status-button" type="button" aria-label="打开连接设置">
+              <span id="status-dot" class="status-dot" data-state="connecting"></span>
+              <span id="status-text">正在连接</span>
+            </button>
+          </div>
+        </div>
+        <button id="new-chat-button" class="icon-button" type="button" aria-label="新对话" title="新对话">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 5v14M5 12h14"></path>
+          </svg>
+        </button>
+      </header>
+
+      <main id="conversation" class="conversation" aria-live="polite">
+        <section id="welcome" class="welcome">
+          <div class="orb" aria-hidden="true"><span>C</span></div>
+          <h2>按你的方式，说清楚。</h2>
+          <p>这里的每次回答都会直接使用本机的 <strong>crisp-voice</strong> Skill。</p>
+          <div class="suggestions" aria-label="建议问题">
+            <button type="button" data-prompt="帮我回复同事：这个方案风险太高，建议先做小范围验证。">
+              帮我回复同事
+            </button>
+            <button type="button" data-prompt="用我的口吻解释一下：为什么排查 C++ 崩溃要先看对象生命周期？">
+              解释技术问题
+            </button>
+            <button type="button" data-prompt="朋友问我要不要马上重装系统，帮我给一个简短建议。">
+              给一个实用建议
+            </button>
+          </div>
+        </section>
+        <div id="messages" class="messages"></div>
+        <div id="typing-indicator" class="typing-indicator" hidden>
+          <span></span><span></span><span></span>
+          <b id="typing-status">正在思考</b>
+        </div>
+      </main>
+
+      <form id="composer" class="composer">
+        <div class="composer-box">
+          <button id="voice-button" class="composer-action" type="button" aria-label="语音输入" title="语音输入">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3Z"></path>
+              <path d="M5 11a7 7 0 0 0 14 0M12 18v3M9 21h6"></path>
+            </svg>
+          </button>
+          <textarea
+            id="message-input"
+            rows="1"
+            maxlength="12000"
+            enterkeyhint="send"
+            placeholder="说点什么…"
+            aria-label="消息"
+          ></textarea>
+          <button id="send-button" class="send-button" type="submit" aria-label="发送">
+            <svg class="send-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m5 12 7-7 7 7M12 5v14"></path>
+            </svg>
+            <svg class="stop-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="7" y="7" width="10" height="10" rx="2"></rect>
+            </svg>
+          </button>
+        </div>
+        <p class="composer-note">回答由本机 Copilot Runtime 生成</p>
+      </form>
+    </div>
+
+    <dialog id="settings-dialog" class="sheet">
+      <form method="dialog" class="sheet-content">
+        <div class="sheet-handle" aria-hidden="true"></div>
+        <header>
+          <div>
+            <p class="eyebrow">Agent Gateway</p>
+            <h2>连接设置</h2>
+          </div>
+          <button class="icon-button" value="close" aria-label="关闭设置" type="submit">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m6 6 12 12M18 6 6 18"></path>
+            </svg>
+          </button>
+        </header>
+
+        <label class="field">
+          <span>配对 Token</span>
+          <input id="settings-token" type="password" autocomplete="off" autocapitalize="none" spellcheck="false">
+        </label>
+        <button id="save-token-button" class="primary-button" type="button">保存并测试连接</button>
+
+        <dl class="status-card">
+          <div><dt>Runtime</dt><dd id="runtime-value">—</dd></div>
+          <div><dt>Model</dt><dd id="model-value">—</dd></div>
+          <div><dt>Skill</dt><dd id="skill-value">—</dd></div>
+          <div><dt>版本指纹</dt><dd id="fingerprint-value">—</dd></div>
+        </dl>
+
+        <button id="clear-chat-button" class="secondary-button" type="button">清空当前对话</button>
+        <button id="disconnect-button" class="danger-button" type="button">取消配对</button>
+        <p class="privacy-note">Token 只保存在这台 iPhone 的浏览器中。HTTP 模式仅适合可信局域网。</p>
+      </form>
+    </dialog>
+
+    <dialog id="pairing-dialog" class="pairing-dialog">
+      <div class="pairing-content">
+        <div class="brand-mark large" aria-hidden="true">C</div>
+        <p class="eyebrow">首次连接</p>
+        <h2>配对 Crisp Agent</h2>
+        <p>从电脑终端复制启动链接，或在下面输入终端显示的 Token。</p>
+        <label class="field">
+          <span>配对 Token</span>
+          <input id="pairing-token" type="password" autocomplete="off" autocapitalize="none" spellcheck="false">
+        </label>
+        <button id="pair-button" class="primary-button" type="button">连接本机 Agent</button>
+        <p id="pairing-error" class="form-error" role="alert"></p>
+      </div>
+    </dialog>
+
+    <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+    <noscript>请启用 JavaScript 后使用 Crisp Agent。</noscript>
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,50 @@
+[
+  {
+    "query": "用 Crisp 的语气回复：这个改动我建议先不要上线。",
+    "should_trigger": true
+  },
+  {
+    "query": "按我的口吻给同事解释一下为什么要先做备份。",
+    "should_trigger": true
+  },
+  {
+    "query": "帮我回复这封邮件，语气像我一点，直接但不要不礼貌。",
+    "should_trigger": true
+  },
+  {
+    "query": "如果 Crisp 来排查这个 Outlook 不同步的问题，他会怎么说？",
+    "should_trigger": true
+  },
+  {
+    "query": "用我的方式给一个 C++ 内存越界的排查建议。",
+    "should_trigger": true
+  },
+  {
+    "query": "把这段换手机教程改成 Crisp 会说的话。",
+    "should_trigger": true
+  },
+  {
+    "query": "帮我看看这个 C++ 编译错误。",
+    "should_trigger": false
+  },
+  {
+    "query": "Outlook 搜索不到昨天的邮件，怎么处理？",
+    "should_trigger": false
+  },
+  {
+    "query": "写一个 SwiftUI 的设置页面。",
+    "should_trigger": false
+  },
+  {
+    "query": "比较一下这两款手机的续航。",
+    "should_trigger": false
+  },
+  {
+    "query": "把这段话改成正式的法律合同语言。",
+    "should_trigger": false
+  },
+  {
+    "query": "总结这篇文章的主要观点。",
+    "should_trigger": false
+  }
+]

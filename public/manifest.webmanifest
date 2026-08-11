@@ -1,0 +1,20 @@
+{
+  "name": "Crisp iPhone Agent",
+  "short_name": "Crisp Agent",
+  "description": "Use the local crisp-voice Agent Skill from iPhone.",
+  "lang": "zh-Hans",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#f4f0e8",
+  "theme_color": "#f4f0e8",
+  "icons": [
+    {
+      "src": "/icons/agent.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
